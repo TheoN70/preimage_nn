@@ -21,9 +21,9 @@
 
 \begin{abstract}
     Neural networks are a convenient way to automatically fit functions that are too complex to be described by hand. 
-    The downside of this approach is that it leads to build a black-box without understanding what happened inside. 
-    Finding the preimage would help to better understand how and why such neural networks had given such outputs. 
-    Because most of the neural networks are noninjective function, it is often impossible to compute it entirely only by a numerical way. 
+    The downside of this approach is that it leads to the creation of a black-box. 
+    Finding the preimage of a given output would help to better understand how and why such neural networks had given such outputs. 
+    Because most neural networks are noninjective functions, it is often impossible to compute them using only a numerical way. 
     The point of this study is to give a method to compute the exact preimage of any Feed-Forward Neural Network with linear or piecewise 
     linear activation functions for hidden layers. In contrast to other methods, this one is not returning a unique solution for a unique output 
     but returns analytically the entire and exact preimage.
@@ -84,21 +84,21 @@ As a result we will assume that all squared matrices in this study are invertibl
 The solutions of some problems are easy to explain by giving multiple examples but tremendously hard to describe analytically. 
 This is for example the case of image recognition. The difference between a dog and a cat picture is instantly discovered by a human eye. 
 It is however almost impossible to mathematically explain what is a dog and what is a cat. Since AlexNet in 2012 \cite{krizhevsky2012imagenet}, 
-ANN has been shown as a wonderful way for computer scientists to solve complex machine learning problems \cite{sejnowski2020unreasonable}. 
-Thanks to repeated training on examples, ANN can learn to solve such complex problems as image recognition by fitting a large function 
-that describe the best the given problem depending on the given examples.\\
+Artificial Neural Networks (ANNs) have been shown as a wonderful way for computer scientists to solve complex machine learning problems \cite{sejnowski2020unreasonable}. 
+Thanks to repeated training on examples, ANNs can learn to solve such complex problems as image recognition by fitting a large function 
+that describe best the given problem depending on the given examples.\\
 According to the universal approximation theorem, ReLU networks with $n$ + 1 layers can approximate any continuous function of 
-$n$-dimensional input variables \cite{hanin2017approximating}. It means that every problem were the solution can be expressed as a continuous function can 
+$n$-dimensional input variables \cite{hanin2017approximating}. It means that every problem where the solution can be expressed as a continuous function can 
 theoretically be  solved by an ANN. \\
-If the ANN correctly approximates the function, most of the information about of the problem has been solved would be contained 
-inside the ANN weights. One of the major issues that encounter ANN are their lack of comprehensibility. 
+If the ANN correctly approximates the function, most of the information about how the problem has been solved would be contained 
+inside the ANN weights. One of the major issues that ANNs encounter are their lack of understandability. 
 A way to better understand solutions given by neural networks would be to know how the inputs are reacting according to the outputs. 
 The perfect understanding of the relationship between outputs and inputs is provided by the preimage which gives all corresponding 
 inputs for given outputs. The issue that remains is how to compute it. \\\\
 
 
 Finding inputs for any neural network’s outputs has already been done by giving one approximate and unique solution from the entire set of
-solutions \cite{dua2000inversion}.\\
+corresponding inputs \cite{dua2000inversion}.\\
 The most natural method to approximate inverse images of a FFNN output is by retro-propagating it on inputs using gradient descent while
 freezing all biases and weights. More recently, researchers built neural networks
 in order to invert other neural networks for microwave design filter application
@@ -109,7 +109,7 @@ remains is the nonuniqueness of the preimage which has an infinite number
 of solutions when the number of inputs is strictly higher than the number of
 outputs. It leads every current method to return a unique approximation of a preimage solution for a given output, 
 even if the proposed solution is not compatible
-with the problem constraints. As a consequence, because many ANN have an infinity of corresponding inputs for their 
+with the problem constraints. As a consequence, because many ANNs have an infinity of corresponding inputs for their 
 outputs, it is impossible to approximate the preimage numerically.\\
 The goal that remains is to find the preimage of the ANN which would give the
 entire set of solutions for any outputs. In order to compute a complete preimage, it has to be done analytically . We found two
@@ -120,7 +120,7 @@ of a single point \cite{carlsson2016preimage} while the second extends it to com
 This study aims at giving a method to analytically find the exact preimage of any given
 FFNN where activation of hidden layers are linear or piecewise linear functions
 like ReLU or Leaky ReLU function. Note that every problem that can be modeled by a continuous function can be 
-approximated with a piecewise linear function like ReLU or Parametric ReLU \cite{hanin2017approximating}.
+approximated with an ANN using piecewise linear function like ReLU or Parametric ReLU as activation for it hidden layers \cite{hanin2017approximating}.
 The point is to set up the basis of ANN preimage computing by giving the details of a fully working and simple method.
 The first part of the study focuses on how to analytically solve this preimage problem in a linear single layer case. 
 The second shows how to iterate it to give a solution for any linear multilayers network. The third part focuses
@@ -128,7 +128,7 @@ on extending to piecewise linear cases and splitting them to linear problems.
 The last part is a description of the implied space and time complexity.\\
 It will be shown that because of its exponential time complexity, the exact analytical case can’t be used 
 for large neural networks in practice. However, the sets of solutions can be voluntarily reduced in order to compute it 
-faster and made the algorithm usable in a practical case.
+faster and make the algorithm usable in a practical case.
 \newpage
 \section{Linear cases}
 
@@ -137,14 +137,14 @@ Let’s consider a neural network with only two layers : input and output layer 
 \\
 Let $ N \in \mathbb{N^{*}}$, the number of neurons.\\
 Let $\textbf{W}\in \mathbb{R}^{N \times N}$, the matrix of weights.\\
-Let $\textbf{x},\textbf{y},\textbf{b} \in \mathbb{R}^{N}$ , respectively inputs, outputs and bias.\\
+Let $\textbf{x},\textbf{y},\textbf{b} \in \mathbb{R}^{N}$ , respectively inputs, outputs and biases.\\
 Let $\alpha,\beta \in \mathbb{R}$\\
 Let $f:x \mapsto \alpha x + \beta $, the activation of the layer.\\
 An output can be expressed as follows : 
 
 \[y_{k} = f(\sum_{i=1}^{N} w_{k,i}x_{i} + b_{k}) ,  k \in [\![1,N]\!] \]
 
-In the case where the activation function is linear, the previous equation can simply be rewrite as follow :
+In the case where the activation function is linear, the previous equation can simply be rewritten as follows :
 
 \begin{align}
     y_{k} = (\sum_{i=1}^{N} \alpha w_{k,i}x_{i} + \alpha b_{k} + \frac{\beta}{N} ),  k \in [\![1,N]\!] 
@@ -168,7 +168,7 @@ It means that finding an inverse image of a layer can be reduced as a matrix pro
     \end{bmatrix}
     \end{equation}
 
-    This can be easily solved with Gauss elimination in $O(N^3)$ time complexity for the following system :
+    This can be solved with Gauss elimination in $O(N^3)$ time complexity for the following system :
 
     \begin{equation*}
         \textbf{S}= \left[\begin{array}{cccc|c}  
@@ -179,10 +179,17 @@ It means that finding an inverse image of a layer can be reduced as a matrix pro
        \end{array}\right]
     \end{equation*}
 
-    Solving this system will lead to build a function $P$ of dimension $N$ which gives a solution for any output with no need to recall the algorithm. This function
-    $P$ will be expressed as:
+    The solution for $\textbf{x}$ is a linear combination of values of $\textbf{y}$ plus a constant.\\
+    Solving this system will lead to build a function $p$ of dimension $N$ which gives a solution for any output with no need to recall the algorithm. This function
+    $p$ will be expressed as:
     \begin{equation*}
-        P(y_{1},...,y_{N}) = 
+        p(y_{1},...,y_{N}) = 
+        \begin{bmatrix}
+            x_{1}\\
+            \vdots \\
+            x_{N}\\
+        \end{bmatrix}
+        =
         \begin{bmatrix}
             (\sum_{i=1}^{N} a_{i,1}y_{i}) + c_{1}\\
             \vdots \\
@@ -191,17 +198,17 @@ It means that finding an inverse image of a layer can be reduced as a matrix pro
     \end{equation*}
     \\\
     Where the $a_{i,j}$ and $c_{j}$ are real values and $P$ the exact preimage of $\textbf{S}$.\\
-    $P$ can also be written as a matrix product:
+    $p$ can also be written as a matrix product:
 
     \begin{equation*}
-        P(\textbf{y}) = \textbf{Ay} + \textbf{c}
+        p(\textbf{y}) = \textbf{Ay} + \textbf{c}
     \end{equation*}
 Where $\textbf{A} \in  \mathbb{R}^{N \times N}$ and $\textbf{c} \in \mathbb{R}^{N}.$
 
 \subsection{Overdetermined systems}
 
 Now let’s consider a neural network once again with only inputs and outputs layers, 
-where the input layer has $N$ neurons and outputs layer $M$ neurons where $N$ is strictly higher than $M$.
+where the input layer has $N$ neurons and output layer $M$ neurons where $N$ is strictly higher than $M$.
 As previously seen, if the activation is linear the layer can be inverted by writing the problem as if the activation was the identity function.
 In order to simplify the notations, the next calculations will be using the identity function.
 \\\\
@@ -288,23 +295,22 @@ Let $ N,M \in \mathbb{N^{*}},N>M$
         w_{M,1} & w_{M,2} & \cdots & w_{M,M} & y_{M}-b_{M} - \sum_{i=M+1}^{N} w_{M,i}x_{i}
        \end{array}\right]
     \end{equation*}
-
-    As \textbf{S'} is now a determined system it can be solved by Gaussian elimination.
-    The preimage will be a function $P$ of dimension $N$ that depends on the $y_{i \in [\![1,M]\!]}$ 
-    and also on the new real free variables $\tau_{i} \in [\![1,N-M]\!]$.\\
-    The $\tau_{i}$ belong to the vector $\boldsymbol{\tau} \in \mathbb{R}^{N-M}$.
+    Under this form the values of $\textbf{x}_{2}$ can now be considered as new free variables of the system such as those of $\textbf{y}$.\\
+    As $\textbf{S'}$ is now a determined system it can be solved by Gaussian elimination.
+    The preimage will be a function $p$ of dimension $N$ that depends on the $y_{i \in [\![1,M]\!]}$ 
+    and also on the new real free variables of $x_{2}$\\
     \begin{equation*}
     \begin{split}
-        P(y_{1},...,y_{M}) &= 
+        p(y_{1},...,y_{M}) &= 
         \begin{bmatrix}
-            (\sum_{i=1}^{M} u_{1,i}y_{i})+ (\sum_{i=1}^{N-M} v_{1,i}\tau_{i})  + c_{1}\\
+            (\sum_{i=1}^{M} a_{1,i,1}y_{i})+ (\sum_{i=M+1}^{N} a_{1,i,2}x_{i})  + (\sum_{i=1}^{N} a_{1,i,3}b_{i})\\
             \vdots \\
-            (\sum_{i=1}^{M} u_{N,i}y_{i})+ (\sum_{i=1}^{N-M} v_{N,i}\tau_{i})  + c_{N}\\
+            (\sum_{i=1}^{M} a_{N,i,1}y_{i})+ (\sum_{i=M+1}^{N} a_{N,i,2}x_{i})  + (\sum_{i=1}^{N} a_{N,i,3}b_{i}\\
         \end{bmatrix}\\
-        \Rightarrow P(\textbf{y})&= \textbf{Uy} + \textbf{V}\boldsymbol{\tau}+ \textbf{c}
+        \Rightarrow p(\textbf{y})&= \textbf{A}_{1}\textbf{y} + \textbf{A}_{2}\textbf{x}_{2}+ \textbf{A}_{3}\textbf{b}
     \end{split}
     \end{equation*}
-    Where $\textbf{U} \in  \mathbb{R}^{N \times M}$,$\textbf{V} \in  \mathbb{R}^{N \times (N-M)}$ and $\textbf{c} \in \mathbb{R}^{N}.$
+    Where $\textbf{A}_{1} \in  \mathbb{R}^{N \times M}$,$\textbf{A}_{2} \in  \mathbb{R}^{N \times (N-M)}$ and $\textbf{A}_{3} \in \mathbb{R}^{N}.$
 
 \subsection{Underdetermined systems}
 
@@ -318,82 +324,52 @@ Let $\mathbf{X}$ the space of inputs and $\mathbf{Y}$ the space of outputs.
     \end{split}
 \end{equation*}
 
-If the system have $F$ free variables where $F$ is higher than $M-N$ and no hidden layers 
-with strictly less neurons than the outputs layer then the system can be solved as follows :
+If the system has more free variables than inputs and no hidden layer 
+with strictly less neurons than the output layer then the system can be solved as follows :
 \\
 \\
-Let $\Gamma$ be the space of outputs.\\ To exactly solve an underdetermined case, $\Gamma$ has to be expressed as a linear combination of
-y and other free variables in order to make the system determined.  \\
-Let $ N,M \in \mathbb{N^{*}},N<M$
-\\ Let $ F > M-N$
-\\ Let $\boldsymbol{\tau} \in \mathbb{R}^F$, a vector of $F$ free variables that the $y_{k}$ will depend on.
-\\ Let $\textbf{A} \in \mathbb{R}^{M \times F}$.
-\\ Let $\textbf{y},\boldsymbol{\gamma},\textbf{b},\textbf{c} \in \mathbb{R}^{M}$.
+Let $ N,M \in \mathbb{N^{*}},N<M$\\
+Let $F \geq M$, the total number of free variables.
+\\ Let $\textbf{A} \in \mathbb{R}^{M \times F}$
 
 
 \begin{equation}
-    \textbf{S}= \left[\begin{array}{cccc|c}  
-    w_{1,1} & w_{1,2} & \cdots & w_{1,N} & \gamma_{1}-b_{1} \\
-    w_{2,1} & w_{2,2} & \cdots & w_{2,N} & \gamma_{2}-b_{2}\\
-    \vdots  & \vdots  & \ddots & \vdots & \vdots\\
-    w_{M,1} & w_{M,2} & \cdots & w_{M,N} & \gamma_{M}-b_{M}
-   \end{array}\right]
+    \textbf{Wx}=\textbf{Ay}-\textbf{b}
 \end{equation}
 \\
-Where $\gamma_{k} = (\sum_{i=1}^{F} a_{k,i}\tau_{i}) + y_{k} +c_{k} ;  k \in [\![1,M]\!] ; a_{k,i},c_{k}\in \mathbb{R} $ 
-\\\\
-Let $\textbf{A}_{1} = \begin{bmatrix}
-    a_{1,1} & a_{1,2} & \cdots & a_{1,M-N} \\
-    a_{2,1} & a_{2,2} & \cdots & a_{2,M-N} \\
-    \vdots  & \vdots  & \ddots & \vdots  \\
-    a_{M,1} & a_{M,2} & \cdots & a_{M,M-N} 
-    \end{bmatrix}$
-, $\textbf{A}_{2} = \begin{bmatrix}
-    a_{1,M-N+1} & a_{1,M-N+2} & \cdots & a_{1,F} \\
-    a_{2,M-N+1} & a_{2,M-N+2} & \cdots & a_{2,F} \\
-    \vdots  & \vdots  & \ddots & \vdots  \\
-    a_{M,M-N+1} & a_{M,M-N+2} & \cdots & a_{M,F} 
-    \end{bmatrix}$
-\\\\\\
-Let $\boldsymbol{\tau}_{1}=\begin{bmatrix}
-    \tau_{1} \\
-    \vdots \\
-    \tau_{M-N} \\
-\end{bmatrix}
-$
-, $\boldsymbol{\tau}_{2}=\begin{bmatrix}
-    \tau_{M-N+1} \\
-    \vdots \\
-    \tau_{F} \\
-\end{bmatrix}
-$
-\
-\\\\\\
-Let $\boldsymbol{\gamma}_{1} = \textbf{A}_{1}\boldsymbol{\tau}_{1},\boldsymbol{\gamma}_{2} = \textbf{A}_{2}\boldsymbol{\tau}_{2}$
+Let $\textbf{A}_{1} \in \mathbb{R}^{M \times (M-N)},\textbf{A}_{2} \in \mathbb{R}^{M \times (F+N-M)}, 
+\textbf{A} = \begin{bmatrix}\textbf{A}_{1}&\textbf{A}_{2} \end{bmatrix}$\\
+Let $\textbf{y}_{1} \in \mathbb{R}^{M-N},\textbf{y}_{2} \in \mathbb{R}^{N},
+\textbf{y} = \begin{bmatrix}\textbf{y}_{1} \\ \textbf{y}_{2} \end{bmatrix}$
+
 
 \begin{equation}
     \begin{split}
-        \textbf{W}\textbf{x}  =\boldsymbol{\Gamma}-\textbf{b} &\Rightarrow 
-        \textbf{W}\textbf{x}  = \boldsymbol{\gamma}_{1} + \boldsymbol{\gamma}_{2} + \textbf{y} + \textbf{c} -\textbf{b}\\
-         & \Rightarrow  \textbf{W}\textbf{x}-\boldsymbol{\gamma}_{1}  = \boldsymbol{\gamma}_{2}+ \textbf{y} + \textbf{c} -\textbf{b} \\
-         & \Rightarrow  \textbf{W}\textbf{x}-\textbf{A}_{1}\boldsymbol{\tau}_{1}  = \boldsymbol{\gamma}_{2}+ \textbf{y} + \textbf{c} -\textbf{b} \\
-         & \Rightarrow \begin{bmatrix}\textbf{W}&\textbf{A}_{1} \end{bmatrix} \begin{bmatrix}\textbf{x} \\\boldsymbol{\tau}_{2} 
-        \end{bmatrix} =\boldsymbol{\gamma}_{2}+ \textbf{y} + \textbf{c}-\textbf{b}
+        \textbf{W}\textbf{x}  =\textbf{Ay}-\textbf{b} &\Rightarrow 
+        \textbf{W}\textbf{x}  = \textbf{A}_{1}\textbf{y}_{1}  + \textbf{A}_{2}\textbf{y}_{2} -\textbf{b}\\
+         & \Rightarrow  \textbf{W}\textbf{x}-\textbf{A}_{1}\textbf{y}_{1} = \textbf{A}_{2}\textbf{y}_{2}-\textbf{b} \\
+         & \Rightarrow \begin{bmatrix}\textbf{W}&\textbf{A}_{1} \end{bmatrix} \begin{bmatrix}\textbf{x} \\\textbf{y}_{1} 
+        \end{bmatrix} =\textbf{A}_{2}\textbf{y}_{2}-\textbf{b}
         \end{split}
 \end{equation} 
 \\
 \
-Let $\textbf{W}'= \begin{bmatrix}\textbf{W}&\textbf{A}_{1} \end{bmatrix},\textbf{x}' = \begin{bmatrix}\textbf{x} \\\boldsymbol{\tau}_{2} \end{bmatrix},
-\boldsymbol{\gamma}'=\boldsymbol{\gamma}_{2}+ \textbf{y} + \textbf{c}$
+Let $\textbf{W}'= \begin{bmatrix}\textbf{W}&\textbf{A}_{1} \end{bmatrix},\textbf{x}' = \begin{bmatrix}\textbf{x} \\\textbf{y}_{2} \end{bmatrix}$
 \\\\
 \begin{equation}
-    (6) \Rightarrow \textbf{W}'\textbf{x}' =\boldsymbol{\gamma}'-\textbf{b}
+    (6) \Rightarrow \textbf{W}'\textbf{x}' =\textbf{A}_{2}\textbf{y}_{2}-\textbf{b}
 \end{equation}
 \\
 \\
-The system $(5)$ can now be rewritten by adding $M-N$ variables of $\boldsymbol{\tau}$ as unknown variables of $(7)$.\\ 
-Once again, the system $(7)$ can be solved thanks to Gaussian elimination with $M$ solutions of $D=F-M+N$ dimensions.
-$P$ will have the same form as the determined case.
+The system $(5)$ can now be rewritten by adding $M-N$ variables of $\textbf{y}$ as unknown variables of $(7)$.\\ 
+Once again, the system $(7)$ can be solved thanks to Gaussian elimination with $M$ solutions of $D=F+N-M$ dimensions.
+The preimage $p$ will have the same form as the determined case.
+
+\begin{equation*}
+p(\textbf{y}_{2})= \textbf{A}_{3}\textbf{y}_{2} + \textbf{A}_{4}\textbf{b}
+\end{equation*}
+
+Where $\textbf{A}_{3} \in  \mathbb{R}^{M \times (F+N-M)}$ and $\textbf{A}_{4} \in  \mathbb{R}^{M}.$
 
 \subsection{Underdetermined system without extra free variables}
 
@@ -918,6 +894,9 @@ Exact preimage computation will give a better understanding of choices taken by 
 the behavior of ANN that are often used as blackbox function.\\ As a resume , this study shows a method that setup a base for FFNN preimage 
 computation thanks to a straight-forward algorithm for analytical solving. It ensures that exact preimages of FFNN can be theoretically 
 found and open the way to other ANN inverting based studies.
+\\\\\\
+Please find the associated code : \url{https://github.com/TheoN70/preimage_nn}
+
 
 \newpage
 \printbibliography
@@ -1157,7 +1136,7 @@ In a general case, linear inequalities system can be written as:
             The previous algorithm gives a convenient way to solve linear inequalities as it ends in an exponential time complexity.
             It however needs more computation (in polynomial time) to enable its solutions to be exploitable.\\
             \\\
-            Please find the associated code : \url{https://github.com/TheoN70/preimage_nn}
+            
 
     \end{appendices}
 
